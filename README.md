@@ -16,10 +16,9 @@ local GGScore = require( "GGScore" )
 local board = GGScore:new( "all" )
 ```
 
-##### Set some values
+##### Create or load a scoreboard and attach it to a GameCenter leaderboard
 ```lua
-box:set( "message", "hello, world" )
-box.anotherValue = 10
+local board = GGScore:new( "best", "com.corona.best" )
 ```
 
 ##### Set the default name
@@ -55,6 +54,11 @@ board:add( nil, 12 )
 ##### Add a name with the default score
 ```lua
 board:add( "Jim", nil )
+```
+
+##### Add a score and submit it to GameCenter ( you will need to already have GameCenter set up properly )
+```lua
+board:add( "Jim", 25, nil, true )
 ```
 
 ##### Display the scores in the console

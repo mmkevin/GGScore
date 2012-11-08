@@ -48,14 +48,16 @@ local sort = table.sort
 
 --- Initiates a new GGScore leaderboard.
 -- @param name The name of the leaderboard.
+-- @param gcID The id of the GameCenter leaderboard to attach this one to. Optional.
 -- @return The new leaderboard.
-function GGScore:new( name )
+function GGScore:new( name, gcID )
     
     local self = {}
     
     setmetatable( self, GGScore_mt )
     
     self.name = name
+    self.gcID = gcID
     self.leaderboards = {}
     self.scores = {}
     
@@ -67,7 +69,8 @@ end
 -- @param name The name of the player.
 -- @param value The score value.
 -- @param date The date timestamp. Default will be result of os.time()
-function GGScore:add( name, value, date )
+-- @param submitToGC True if you would like this score submitted to GameCenter, false otherwise. Optional, default is false.
+function GGScore:add( name, value, date, submitToGC )
 
 	local score = { name = name, value = value, date = date }
 	
@@ -84,6 +87,21 @@ function GGScore:add( name, value, date )
 	end
 
 	self.scores[ #self.scores + 1 ] = score
+	
+	if gameNetwork and submitToGC and self.gcID then
+		gameNetwork.request
+		( 
+			"setHighScore",
+			{
+				localPlayerScore = 
+				{ 
+					category = self.gcID, 
+					value = score.value 
+				},
+				listener = requestCallback
+			}
+		)
+	end
 	
 end
 
