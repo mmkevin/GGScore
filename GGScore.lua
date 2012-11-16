@@ -89,8 +89,7 @@ function GGScore:add( name, value, date, submitToGC )
 	self.scores[ #self.scores + 1 ] = score
 	
 	if gameNetwork and submitToGC and self.gcID then
-		gameNetwork.request
-		( 
+		gameNetwork.request( 
 			"setHighScore",
 			{
 				localPlayerScore = 
