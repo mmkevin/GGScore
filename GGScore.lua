@@ -135,12 +135,12 @@ function GGScore:getScoresByPerson( name )
 end
 
 --- Sorts the scores.
--- @param ascending True if the scores should be sorted descending, false if ascending. Default is descending.	
-function GGScore:sort( descending )
-	if descending == nil or descending then
-		sort( self.scores, function( a, b ) return a.value > b.value end )
+-- @param ascending True if the scores should be sorted ascending, false if descending. Default is descending.	
+function GGScore:sort( ascending )
+	if ascending then
+		sort( self.scores, function( a, b ) return tonumber( a.value ) < tonumber( b.value ) end )
 	else	
-		sort( self.scores, function( a, b ) return a.value < b.value end )
+		sort( self.scores, function( a, b ) return tonumber( a.value ) > tonumber( b.value ) end )
 	end
 end
 
@@ -177,9 +177,9 @@ function GGScore:setScores( scores )
 end
 
 --- Gets a list of all scores.
--- @param ascending True if the scores should be sorted in descending order, false if ascending. Default is descending.
-function GGScore:getScores( descending )
-	self:sort( descending )
+-- @param Ascending True if the scores should be sorted in ascending order, false if descending. Default is descending.
+function GGScore:getScores( ascending )
+	self:sort( ascending )
 	return self.scores
 end
 
