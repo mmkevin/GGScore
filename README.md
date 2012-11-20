@@ -16,9 +16,14 @@ local GGScore = require( "GGScore" )
 local board = GGScore:new( "all" )
 ```
 
+##### Create or load a scoreboard and flag it so duplicate names are allowed
+```lua
+local board = GGScore:new( "best", true )
+```
+
 ##### Create or load a scoreboard and attach it to a GameCenter leaderboard
 ```lua
-local board = GGScore:new( "best", "com.corona.best" )
+local board = GGScore:new( "best", nil, "com.corona.best" )
 ```
 
 ##### Set the default name

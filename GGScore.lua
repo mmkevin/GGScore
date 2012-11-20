@@ -48,15 +48,17 @@ local sort = table.sort
 
 --- Initiates a new GGScore leaderboard.
 -- @param name The name of the leaderboard.
+-- @param allowDuplicate True if duplicate names are allowed, false otherwise.
 -- @param gcID The id of the GameCenter leaderboard to attach this one to. Optional.
 -- @return The new leaderboard.
-function GGScore:new( name, gcID )
+function GGScore:new( name, allowDuplicate, gcID )
     
     local self = {}
     
     setmetatable( self, GGScore_mt )
     
     self.name = name
+    self.allowDuplicate = allowDuplicate
     self.gcID = gcID
     self.leaderboards = {}
     self.scores = {}
@@ -86,6 +88,16 @@ function GGScore:add( name, value, date, submitToGC )
 		score.value = string.sub( score.value, 1, self:getMaxScoreLength() ) 
 	end
 
+	if not self.allowDuplicate then
+		
+		for i = 1, #self.scores, 1 do
+			if self.scores[ i ].name == name then
+				return
+			end
+		end
+		
+	end
+	
 	self.scores[ #self.scores + 1 ] = score
 	
 	if gameNetwork and submitToGC and self.gcID then
